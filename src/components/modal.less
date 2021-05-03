@@ -1,0 +1,212 @@
+@import './scrollbar.less';
+
+@prefix: ~'modal';
+
+html,body{
+    height: 100%;
+    width: 100%;
+}
+
+.@{prefix} {
+    &.modal-animation-in {
+        animation: fadein 0.4s;
+    }
+
+    &.modal-animation-out {
+        animation: fadeout 0.3s;
+    }
+
+    // animation: fadein 0.5s;
+    background-color: white;
+    display         : flex;
+    flex-direction  : column;
+    border-radius   : 4px;
+    background-color: white;
+    position        : fixed;
+    display         : flex;
+    flex-direction  : column;
+    top             : 50%;
+    left            : 50%;
+    box-shadow      : 0 3px 6px -4px rgba(0, 0, 0, .12),
+    0 6px 16px 0 rgba(0, 0, 0, .08),
+    0 9px 28px 8px rgba(0, 0, 0, .05);
+
+    &.@{prefix}-extendStatus {
+        top : 0;
+        left: 0;
+    }
+
+    &-header {
+        cursor          : move;
+        display         : flex;
+        justify-content : space-between;
+        height          : 40px;
+        line-height     : 40px;
+        padding         : 0 12px;
+        background-color: #1c56d1;
+        border-radius: 4px 4px 0 0;
+
+        .@{prefix}-title {
+            font-size    : 16px;
+            font-weight  : bold;
+            color        : white;
+            overflow     : hidden;
+            text-overflow: ellipsis;
+            white-space  : nowrap;
+            max-width    : ~"calc(100% - 160px)";
+        }
+
+        .@{prefix}-header-drag{
+            cursor: n-resize;
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 10px;
+            width: 100%;
+        }
+
+        .@{prefix}-header-btnList {
+            display: flex;
+
+            .@{prefix}-header-btn {
+                cursor: pointer;
+
+                &.btn-extend {
+                    .icon-extend {
+                        transition: all 0.6s;
+
+                        &:hover {
+                            transition: all 0.8s;
+                            transform : scale(1.4);
+                        }
+
+                        width           : 25px;
+                        height          : 20px;
+                        background-image: url('../images/全屏.png');
+                    }
+
+                    margin-right: 6px;
+                }
+
+                &.btn-close {
+                    .icon-close {
+                        transition: all 0.6s;
+
+                        &:hover {
+                            transition: all 0.8s;
+                            transform : scale(1.4);
+                        }
+
+                        width           : 20px;
+                        height          : 20px;
+                        background-image: url('../images/search-close.png');
+
+                        &::before {
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .@{prefix}-body {
+        flex    : 1;
+        overflow: auto;
+        cursor  : e-resize;
+        padding : 10px 12px;
+
+        .@{prefix}-content {
+            cursor: default;
+        }
+    }
+
+    .@{prefix}-footer-wrapper {
+        height: 10px;
+        cursor: s-resize;
+    }
+
+    .@{prefix}-footer {
+        border-top     : 1px solid #e8e8e8;
+        height         : 42px;
+        line-height    : 42px;
+        display        : flex;
+        cursor         : n-resize;
+        justify-content: flex-end;
+
+        &-btnList {
+            padding    : 0 12px;
+            line-height: 38px;
+
+            .@{prefix}-footer-btn {
+                margin-left: 8px;
+            }
+        }
+    }
+
+    .@{prefix}-footer-null {
+        height  : 4px;
+        position: absolute;
+        bottom  : 0;
+    }
+}
+
+.icon {
+    vertical-align   : middle;
+    display          : inline-block;
+    background-size  : contain;
+    background-repeat: no-repeat;
+
+}
+
+#@{prefix}-root {
+    perspective       : 1200px;
+    animation-duration: 500ms;
+    transform-style   : preserve-3d;
+    height            : 100%;
+    width             : 100%;
+    position          : fixed;
+    top               : 0;
+    left              : 0;
+    z-index           : 999;
+
+    &.modal-mask-in {
+        background-color: rgba(0, 0, 0, .45);
+        transition      : 0.4s 0.4s;
+    }
+
+    &.modal-mask-out {
+        background-color: rgba(0, 0, 0, 0);
+        transition      : 0.3s 0.3s;
+    }
+}
+
+@keyframes fadein {
+    0% {
+        top      : 100%;
+        opacity  : 0.2;
+        transform: rotateX(90deg);
+    }
+
+    100% {
+        top      : 50%;
+        opacity  : 1;
+        transform: rotateX(0deg);
+    }
+}
+
+@keyframes fadeout {
+
+    0% {
+        top      : 50%;
+        opacity  : 1;
+        transform: rotateX(0deg);
+    }
+
+    100% {
+        top      : 100%;
+        opacity  : 0.2;
+        transform: rotateX(90deg);
+    }
+
+}

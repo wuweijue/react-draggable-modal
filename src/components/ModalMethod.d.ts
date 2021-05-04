@@ -7,7 +7,7 @@ export default class IModalMethod {
      * @param modal 弹窗组件
      * @returns modalIndex 返回一个modal的string类型的id值，用于关闭弹窗
      */
-    public showModal(modal: JSX.Element): IModal
+    public showModal(modal: JSX.Element, config:IConfig): IModal
 
     /**
      * @description 关闭某个指定的弹窗
@@ -50,4 +50,9 @@ export interface IModal{
      * 关闭当前节点的方法
      */
     close(): void
+
+    /**
+     * 弹窗react元素
+     */
+    reactElement: JSX.Element
 }

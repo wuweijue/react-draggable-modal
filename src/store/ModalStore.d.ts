@@ -1,13 +1,20 @@
 export default class IModalStore {
 
-    modalList:number[]
+    modalList: modal[]
 
     maxZIndex:number
 
-    registerModal(zIdx:number):void
+    registerModal(reactElement):void
 
-    unRegisterModal(zIdx:number):void
+    unRegisterModal(modalId: number):void
 
-    promoteZIndex():void
+    promoteZIndex(modalId: number):void
 
+    findReactElement(modalId: number): JSX.Element
+
+}
+
+interface modal {
+    modalId: number,
+    reactElement: JSX.Element
 }

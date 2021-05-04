@@ -12,9 +12,9 @@ type IButtonProps = IExtendButtonProps & React.ButtonHTMLAttributes<HTMLElement>
 
 class Button extends React.Component<IButtonProps> {
     render(){
-        const { disabled=false, onClick, className='', children, type, ...otherProps } = this.props;
+        const { disabled=false, onClick, className='', children, btnType, ...otherProps } = this.props;
         return <button
-            className={classNames('modal-button',className,type)}
+            className={classNames('modal-button',className,btnType)}
             onClick={onClick} 
             disabled={disabled}
             {...otherProps}

@@ -9,21 +9,33 @@ class Button extends React.Component {
     componentDidMount(){
         
     }
+    
     render(){
         return <button onClick={ ()=>{
-            [0,1].forEach(item=>{
+           
                 let modal = ModalMethods.showModal(<Modal
-                    onOk={()=>modal.close()} 
-                    onCancel={()=>modal.close()} 
+                    onOk={()=>{
+                        modal.close()
+                    }} 
+                    onCancel={()=>{
+                        modal.close()
+                        let modal2 = ModalMethods.showModal(<Modal
+                            onOk={()=>modal2.close()} 
+                            onCancel={()=>{
+                                console.log(modal2.modalId)
+                                modal2.close()
+                            }} 
+                            visible={true}
+
+                            >
+                
+                            </Modal>)
+                    }} 
                     visible={true}
-                        footer={<div></div>}
+                        
                     >
         
                     </Modal>)
-            })
-            
-
-
         }
            
         }>fff</button>

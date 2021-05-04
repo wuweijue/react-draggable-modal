@@ -31,12 +31,13 @@ class ModalMethod implements IModalMethod{
         $('#modal-root').append(`<div id='modal-wrapper-${modalId}' class='modal-wrapper'/>`);
 
         //利用ReactDOM渲染modal
-        ReactDOM.render(modal, document.getElementById('modal-wrapper-' + modalId));
+        const reactElement = (ReactDOM.render(modal, document.getElementById('modal-wrapper-' + modalId)) as any);
 
         return {
             DOM: document.getElementById('modal-'+modalId),
             modalId,
-            close: ()=>this.hideModal(modalId)
+            close: ()=>this.hideModal(modalId),
+            reactElement
         };
     }
 

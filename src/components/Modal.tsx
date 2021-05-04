@@ -11,6 +11,7 @@ class Modal extends React.Component<IModalProps, any> {
     constructor(props) {
         super(props);
         this.init();
+        console.log(this.props.store)
     }
 
     init() {
@@ -73,9 +74,10 @@ class Modal extends React.Component<IModalProps, any> {
             width = 200;
         }
 
+        const that = this;
         const store = this.props.store;
-        let zIndex = store.maxZIndex + 1;
-        store.registerModal(zIndex);
+
+        let zIndex = store.registerModal(that);
 
         let { mask = true, visible, draggable, title } = props;
 
@@ -89,7 +91,7 @@ class Modal extends React.Component<IModalProps, any> {
             toBottom: 0, // 向下的偏移量
             isExtend: false,
             draggable: draggable || true,//是否可拖拽
-            intZIndex: zIndex, // 初始值，用于定位
+            modalId: zIndex, // 初始值，用于定位
             zIndex: zIndex, // 控制层级    
             marginTop: 0 - 0.5 * height, //让表单初始时保持居中
             marginLeft: 0 - 0.5 * width, //让表单初始时保持居中
@@ -111,7 +113,7 @@ class Modal extends React.Component<IModalProps, any> {
 
     componentWillUnmount() {
         this.afterClose();
-        this.props.store.unRegisterModal(this.state.intZIndex);
+        this.props.store.unRegisterModal(this.state.modalId);
     }
 
     afterClose() {
@@ -295,13 +297,13 @@ class Modal extends React.Component<IModalProps, any> {
         })
     }
 
-    //层级提升
-    promoteZIndex = () => {
+    //聚焦
+    handleFocus = () => {
         const store = this.props.store;
         const maxZIndex = store.maxZIndex;
         let modalList = store.modalList;
         if (modalList.length > 1 && this.state.zIndex < maxZIndex) {
-            let newZIdx = store.promoteZIndex();
+            let newZIdx = store.promoteZIndex(this.state.modalId);
             this.setState({
                 zIndex: newZIdx,
             })
@@ -356,7 +358,7 @@ class Modal extends React.Component<IModalProps, any> {
 
     render() {
         const { className: propsClassName, title, closable = true, bodyStyle } = this.props;
-        let { isExtend, draggable, intZIndex, toRight, toBottom } = this.state;
+        let { isExtend, draggable, modalId, toRight, toBottom } = this.state;
         const className = classNames('modal', 'modal-animation-in', { 'modal-extendStatus': isExtend, [propsClassName]: propsClassName })
         let transformProps = {}
         if (toRight || toBottom) {
@@ -368,9 +370,9 @@ class Modal extends React.Component<IModalProps, any> {
         return (
             <div
                 ref={(modal) => this.modal = modal}
-                id={'modal-' + intZIndex}
+                id={'modal-' + modalId}
                 className={className}
-                onClick={() => { this.promoteZIndex() }}
+                onClick={() => { this.handleFocus() }}
                 style={{
                     ...bodyStyle,
                     display: this.state.visible ? 'flex' : 'none',

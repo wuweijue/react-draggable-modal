@@ -5,11 +5,10 @@ class ModalStore implements IModalStore{
 
     constructor(){
         $(document).keydown((event)=>{
+            event.preventDefault();
             let focusId = this.modalList.length && this.modalList[this.modalList.length-1].modalId;
-            console.log('focusId: ' + focusId)
             let reactElement = this.findReactElement(focusId) 
             if(!reactElement) return false;      
-            console.log(this.modalList)
             if(event.keyCode == 13){ //回车
                 reactElement.props.onOk && reactElement.props.onOk();
             }
@@ -45,7 +44,6 @@ class ModalStore implements IModalStore{
     }
 
     unRegisterModal(modalId){
-        console.log(this.modalList)
         for(let i=0;i<this.modalList.length;i++){
             let curModalId = this.modalList[i].modalId;
             if(this.modalList[i].modalId == modalId){

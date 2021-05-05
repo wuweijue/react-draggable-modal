@@ -15,7 +15,7 @@ class Button extends React.Component {
            
                 let modal = ModalMethods.showModal(<Modal
                     onOk={()=>{
-                        modal.close()
+                        modal.close();
                     }} 
                     onCancel={()=>{
                         modal.close()

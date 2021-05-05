@@ -11,7 +11,6 @@ class Modal extends React.Component<IModalProps, any> {
     constructor(props) {
         super(props);
         this.init();
-        console.log(this.props.store)
     }
 
     init() {

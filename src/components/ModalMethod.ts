@@ -47,14 +47,12 @@ class ModalMethod implements IModalMethod{
      */
     public hideModal(modalIndex:number):void {
         if ($('#modal-wrapper-' + modalIndex).length) {
-            
             $("#modal-"+modalIndex).addClass('modal-animation-out');
-            
+
             //设置定时器延时卸载组件是为了展示关闭弹窗的动画效果
             setTimeout(() => {
                 //手动卸载react组件，目的是触发内部组件componentWillUnmount生命周期函数
                 ReactDOM.unmountComponentAtNode(document.getElementById("modal-wrapper-" + modalIndex))
-                $('#modal-wrapper-' + modalIndex).remove();
 
                 //若#modal-root内弹窗均已关闭，则移除该元素
                 if (!$('.modal-wrapper').length) {

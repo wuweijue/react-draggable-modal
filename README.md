@@ -65,21 +65,21 @@ Chinese Introduction：
 		quit(modalInstance){
 			//...此处执行quit事件,执行完毕后关闭弹窗
                           
-            /*方法一：通过创建modal弹窗返回的实例的close方法*/ 
-		    modalInstance.close();
+            		/*方法一：通过创建modal弹窗返回的实例的close方法*/ 
+			modalInstance.close();
 
-            /*方法二：通过modal的hideModal方法，参数为modalId*/
-            ModalMethod.hideModal(modalInstance.modalId); 
+			/*方法二：通过modal的hideModal方法，参数为modalId*/
+			ModalMethod.hideModal(modalInstance.modalId); 
 
-            /*方法三：通过modal的hideAllModal方法强制关闭所有弹窗*/
-            ModalMethod.hideAllModal(); 
+			/*方法三：通过modal的hideAllModal方法强制关闭所有弹窗*/
+			ModalMethod.hideAllModal(); 
 		}
 
 		querySave(){
 			// 此处展示弹窗并返回一个弹窗实例，用于关闭弹窗或是获取Modal的dom（详情请见api说明）
-			let modalInstance = modal.showModal(<Modal
-				onOk={()=>this.save(modalInstance)}
-				onCancel={()=>this.quit(modalInstance)}
+			let modal = ModalMethod.showModal(<Modal
+				onOk={()=>this.save(modal)}
+				onCancel={()=>this.quit(modal)}
 				visible={true} //当使用接口调用时这是必须的
 			>
 				当前表单内容有所变化，请问是否需要保存？

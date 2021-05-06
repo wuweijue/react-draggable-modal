@@ -5,6 +5,7 @@ import * as $ from 'jquery';
 import { IModalProps } from './Modal.d';
 
 import './modal.less';
+import classnames from 'classnames';
 
 class Modal extends React.Component<IModalProps, any> {
 
@@ -159,19 +160,28 @@ class Modal extends React.Component<IModalProps, any> {
         //当鼠标按下后拖动时触发
         document.onmousemove = (event) => {
             //避免拖动过程中文本被选中
-            window.getSelection ? window.getSelection().removeAllRanges() : (document as any).selection.empty();
+            window.getSelection ? window.getSelection().removeAllRanges() : (document as any).selection.empty();        
 
-            let toRight = event.clientX - pointLeft + right;
-            let toBottom = event.clientY - pointTop + bottom;
+            let curCLientX = (event.clientX > 10 ? (event.clientX < document.body.clientWidth - 10 ? event.clientX : document.body.clientWidth - 10 ) : 10 );
 
+            let curCLientY = (event.clientY > 10 ? (event.clientY < document.body.clientHeight - 10 ? event.clientY : document.body.clientHeight - 10 ) : 10 );
+
+            let toRight = curCLientX - pointLeft + right;
+
+            let toBottom = curCLientY - pointTop + bottom;
+
+            
             this.setState({
                 toRight: toRight,
                 toBottom: toBottom,
             })
         }
 
-        document.onmouseup = () => {
+        document.onmouseup = (event) => {
             //鼠标松开后清除移动事件
+            if(event.clientY < 0 || event.clientY > document.body.clientHeight ){
+                this.handleExtend();
+            }
             document.onmousemove = null;
         }
     }
@@ -268,15 +278,15 @@ class Modal extends React.Component<IModalProps, any> {
     handleExtend() {
         let { clientWidth:width, clientHeight:height } = document.body;
         let marginTop, marginLeft;
-        let { draggable, historyWidth, historyHeight } = this.state;
-        if (!this.state.isExtend) {
+        let { draggable, historyWidth, historyHeight, isExtend, } = this.state;
+        if (!isExtend) {
             marginTop = 0;
             marginLeft = 0;
             //若当前不是全屏状态则全屏后禁止拖拽
             draggable = false;
         } else {
             //从全屏状态恢复为原来的状态
-            draggable = this.props.draggable;
+            draggable = this.props.draggable === false ? false : true;
             width = historyWidth;
             height = historyHeight;
             marginTop = 0 - historyHeight / 2;
@@ -292,7 +302,7 @@ class Modal extends React.Component<IModalProps, any> {
             draggable,
             marginTop,
             marginLeft,
-            isExtend: !this.state.isExtend,
+            isExtend: !isExtend,
         })
     }
 
@@ -372,6 +382,7 @@ class Modal extends React.Component<IModalProps, any> {
                 id={'modal-' + modalId}
                 className={className}
                 onClick={() => { this.handleFocus() }}
+                
                 style={{
                     ...bodyStyle,
                     display: this.state.visible ? 'flex' : 'none',
@@ -385,6 +396,10 @@ class Modal extends React.Component<IModalProps, any> {
 
                 <div className='modal-header'
                     /* 弹窗拖动事件 */
+                    onDoubleClick={(e)=>{
+                        e.stopPropagation(); 
+                        this.handleExtend(); 
+                    }}
                     onMouseDown={(e) => {
                         draggable && this.dragMove(e)
                     }}
@@ -396,7 +411,7 @@ class Modal extends React.Component<IModalProps, any> {
                     >
                         
                     </div>
-                    <div className='modal-title'>
+                    <div className='modal-title' onMouseDown={(e)=>e.stopPropagation()} onDoubleClick={(e)=>e.stopPropagation()}>
                         {title}
                     </div>
 
@@ -404,7 +419,7 @@ class Modal extends React.Component<IModalProps, any> {
                     <div className='modal-header-btnList'>
                         {/* 全屏 */}
                         <div
-                            className='modal-header-btn btn-extend'
+                            className={classnames('modal-header-btn btn-extend',{"isExtend": isExtend})}
                             onClick={
                                 () => this.handleExtend()
                             }

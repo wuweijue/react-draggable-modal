@@ -2,7 +2,7 @@ import IModalStore from '../store/ModalStore.d';
 
 export interface IModalProps {
 
-    store: IModalStore
+    store?: IModalStore
 
     visible?: boolean
 

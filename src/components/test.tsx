@@ -14,6 +14,7 @@ class Button extends React.Component {
         return <button onClick={ ()=>{
            
                 let modal = ModalMethods.showModal(<Modal
+                    title='测试弹窗'
                     onOk={()=>{
                         modal.close();
                     }} 

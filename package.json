@@ -1,6 +1,6 @@
 {
   "name": "react-draggable-modal",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "main": "lib/modal.js",
   "author": "wuweijue",
   "license": "MIT",
@@ -50,5 +50,8 @@
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^5.0.9",
     "webpack-node-externals": "^2.5.0"
-  }
+  },
+  "files": [
+    "/lib"
+  ]
 }

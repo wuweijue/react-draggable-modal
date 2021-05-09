@@ -1,4 +1,5 @@
-const path = require('path')
+const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const webpackBaseConfig = {
     
@@ -19,14 +20,10 @@ const webpackBaseConfig = {
             {
                 test: /\.less$/,
                 use: [          
-                    'style-loader',
                     'css-hot-loader',
+                    MiniCssExtractPlugin.loader,
                     'css-loader',
-                    {
-                        loader: 'less-loader',
-                        
-                    }
-                    
+                    'less-loader',
                 ]
             },
             {

@@ -37,6 +37,33 @@ html,body{
         left: 0;
     }
 
+    .draggable{
+        position: absolute;
+        display: inline-block;
+        height: 12px;
+        width: 12px;
+        &.left-top{
+            top: 0;
+            left: 0;
+            cursor: nw-resize;
+        }
+        &.left-bottom{
+            bottom: 0;
+            left: 0;
+            cursor: sw-resize;
+        }
+        &.right-top{
+            top: 0;
+            right: 0;
+            cursor: ne-resize;
+        }
+        &.right-bottom{
+            bottom: 0;
+            right: 0;
+            cursor: se-resize;
+        }
+    }
+
     &-header {
         cursor          : move;
         display         : flex;
@@ -62,9 +89,9 @@ html,body{
             cursor: n-resize;
             position: absolute;
             top: 0;
-            left: 0;
+            left: 12px;
             height: 10px;
-            width: 100%;
+            width: ~"calc(100% - 24px)";
         }
 
         .@{prefix}-header-btnList {

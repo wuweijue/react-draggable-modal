@@ -11,5 +11,6 @@ class DragModal extends React.Component<IModalProps>{
 
 export default ModalMethods;
 
+
 export { DragModal as Modal };
 

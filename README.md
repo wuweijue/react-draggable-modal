@@ -30,6 +30,8 @@ Chinese Introduction：
 
 	import { Modal } from 'react-draggable-modal';
 
+    import 'react-draggable-modal/lib/modal.css'; 
+
 	class Business extends React.Components {
 
 		state = {
@@ -59,6 +61,8 @@ Chinese Introduction：
 ``` typescript
 
 	import ModalMethod,{ Modal } from 'react-draggable-modal';
+
+    import 'react-draggable-modal/lib/modal.css'; 
 
 	class Business extends React.Components {
 

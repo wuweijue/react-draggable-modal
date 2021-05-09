@@ -198,7 +198,7 @@ class Modal extends React.Component<IModalProps, any> {
 
         if (pointLeft - left <= 20 && pointLeft >= left) {
             pointDirection = 'left';
-        } else if (this.state.width + left - pointLeft <= 20) {
+        } else if (width + left - pointLeft <= 20) {
             pointDirection = 'right';
         } else {
             return false;
@@ -272,6 +272,71 @@ class Modal extends React.Component<IModalProps, any> {
         document.onmouseup = () => {
             document.onmousemove = null;
         }
+    }
+
+    dragScale(e){
+        e.stopPropagation();
+        let { width, toRight: right, } = this.state;
+        let pointLeft = e.clientX //获取此时鼠标距离屏幕左侧的距离
+        let left = this.modal.offsetLeft + right; //弹框到左边的距离
+        let pointDirectionX, pointDirectionY; //点击的是弹框上下左右
+
+        if (pointLeft - left <= 20 && pointLeft >= left) {
+            pointDirectionX = 'left';
+        } else if (width + left - pointLeft <= 20) {
+            pointDirectionX = 'right';
+        } else {
+            return false;
+        }
+
+        let { height, toBottom: bottom, } = this.state;
+        let pointTop = e.clientY //获取此时鼠标距离屏幕顶部的距离
+        let top = this.modal.offsetTop + bottom; //弹框到顶部的距离
+
+        if (pointTop - top <= 20 && pointTop >= top) {
+            pointDirectionY = 'top';
+        } else if (height + top - pointTop <= 20) {
+            pointDirectionY = 'bottom';
+        } else {
+            return false;
+        }
+
+        document.onmousemove = (event) => {
+            window.getSelection ? window.getSelection().removeAllRanges() : (document as any).selection.empty();
+            let toRight, newWidth, toBottom, newHeight;
+
+            if (pointDirectionX === 'left') {
+                toRight = event.clientX - pointLeft + right;
+                newWidth = width + pointLeft - event.clientX;
+                newWidth = newWidth < 200 ? 200 : newWidth;
+            } else {
+                toRight = right;
+                newWidth = width + event.clientX - pointLeft;
+                newWidth = newWidth < 200 ? 200 : newWidth;
+            }
+
+            if (pointDirectionY === 'top') {
+                toBottom = event.clientY - pointTop + bottom;
+                newHeight = height + pointTop - event.clientY;
+                newHeight = newHeight < 120 ? 120 : newHeight;
+            } else {
+                toBottom = bottom;
+                newHeight = height + event.clientY - pointTop;
+                newHeight = newHeight < 120 ? 120 : newHeight;
+            }
+
+            this.setState({
+                toRight,
+                width: newWidth,
+                toBottom,
+                height: newHeight,
+            })
+        }
+
+        document.onmouseup = () => {
+            document.onmousemove = null;
+        }
+
     }
 
     /* 全屏/还原 */
@@ -365,6 +430,12 @@ class Modal extends React.Component<IModalProps, any> {
         )
     }
 
+    draggableAngleRender(){
+        return ['right-bottom','right-top','left-bottom','left-top'].map(item=>{
+            return <div key={item} className={classnames('draggable',item)} onMouseDown={(e)=>this.dragScale(e)}></div>
+        })
+    }
+
     render() {
         const { className: propsClassName, title, closable = true, bodyStyle } = this.props;
         let { isExtend, draggable, modalId, toRight, toBottom } = this.state;
@@ -393,7 +464,9 @@ class Modal extends React.Component<IModalProps, any> {
                     marginLeft: this.state.marginLeft,
                     ...transformProps
                 }}>
-
+                
+                { this.draggableAngleRender() }
+        
                 <div className='modal-header'
                     /* 弹窗拖动事件 */
                     onDoubleClick={(e)=>{

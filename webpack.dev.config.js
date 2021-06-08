@@ -11,21 +11,14 @@ const webpackDevConfig = {
     devtool: "source-map",
     entry: [
         path.join(__dirname,'./src/index.tsx'),
-        `webpack-dev-server/client?http://localhost:${port}/`
     ],
     output: {
         path: path.join(__dirname,'./lib'),
         filename: 'modal.js'
     },
-    devServer: {
-        port: 8080,
-        host: 'localhost',
-        hot: true,
-        contentBase: path.join(__dirname,'./lib')
-    },
     plugins: [
         new HtmlWebpackPlugin({
-            template: './public/index.html'
+            template: './src/index.html'
         }),
         new MiniCssExtractPlugin({
             filename: './lib/modal.css'
@@ -35,7 +28,8 @@ const webpackDevConfig = {
         port,
         publicPath: '/',
         stats: 'minimal',
-        host: '0.0.0.0',
+        hot: true,
+        open: true,
         proxy: {
             '/api': {
                 changeOrigin: true,

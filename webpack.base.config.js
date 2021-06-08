@@ -12,6 +12,18 @@ const webpackBaseConfig = {
                     loader: 'babel-loader',
                     options: {
                         presets: [
+                            [
+                                '@babel/preset-env',
+                                {
+                                    corejs: {
+                                        version: 3
+                                    },
+                                    useBuiltIns: 'usage',
+                                    targets: {
+                                        ie: '9'
+                                    }
+                                }
+                            ],
                             '@babel/preset-react'
                         ]
                     }
@@ -20,13 +32,31 @@ const webpackBaseConfig = {
             {
                 test: /\.less$/,
                 use: [          
-                    'css-hot-loader',
                     MiniCssExtractPlugin.loader,
                     'css-loader',
+                    {
+                        loader: 'postcss-loader',
+                        options:{
+                            postcssOptions: {
+                                plugins: [
+                                    require('autoprefixer')({
+                                        overrideBrowserslist: [
+                                            ">0.2%",
+                                            "not dead",
+                                            "not op_mini all"
+                                        ]
+                                    })
+                                ]
+                            }
+                            
+                        }
+                        
+                    },
                     'less-loader',
                 ]
             },
             {
+                exclude: /node_modules/,
                 test: /\.tsx?$/,
                 use: [
                     {
@@ -38,20 +68,12 @@ const webpackBaseConfig = {
                 ]
             },
             {
-                test: /\.(png|jpg|gif)$/,
-                use: [
-                    {
-                        loader: 'url-loader',
-                        options: {
-                            limit: 8192
-                        }
-                    }
-                ]
-            }
+                test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|eot|ttf|otf)$/,
+                type: 'asset'
+            },
         ]
     },
     resolve: {
-        modules: ['src','node_modules'],
         alias: {
             'react': path.resolve(__dirname, 'node_modules', 'react'),
         },

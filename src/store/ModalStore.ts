@@ -1,4 +1,4 @@
-import * as $ from 'jquery';
+
 import IModalStore from  './ModalStore.d'
 
 class ModalStore implements IModalStore{

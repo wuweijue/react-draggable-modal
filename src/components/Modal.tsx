@@ -1,7 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import Button from './Button';
-import * as $ from 'jquery';
 import { IModalProps } from './Modal.d';
 
 import './modal.less';
@@ -18,7 +17,7 @@ class Modal extends React.Component<IModalProps, any> {
         const props = this.props;
         let width = 400, height = 180;
         const { clientWidth, clientHeight } = document.body;
-        
+
         //将宽高由百分比或者带px单位的string转换为number
         if (props.width && typeof props.width === 'number') {
             if (props.width > clientWidth) {
@@ -42,7 +41,7 @@ class Modal extends React.Component<IModalProps, any> {
                 width = clientWidth * parseInt(props.width) / 100;
             }
 
-        } 
+        }
 
         if (props.height && typeof props.height === 'number') {
             if (props.width > clientHeight) {
@@ -81,7 +80,13 @@ class Modal extends React.Component<IModalProps, any> {
 
         let { mask = true, visible, draggable, title } = props;
 
-        mask && $("#modal-root").addClass('modal-mask-in');
+        if(mask){
+            let modalRootDOM = document.querySelector('#modal-root');
+            let modalRootClassName = modalRootDOM.className;
+            if (!modalRootClassName.includes('modal-mask-in')) {
+                modalRootDOM.className += ' modal-mask-in'
+            }
+        }
 
         this.state = {
             visible: visible || false,
@@ -160,17 +165,17 @@ class Modal extends React.Component<IModalProps, any> {
         //当鼠标按下后拖动时触发
         document.onmousemove = (event) => {
             //避免拖动过程中文本被选中
-            window.getSelection ? window.getSelection().removeAllRanges() : (document as any).selection.empty();        
+            window.getSelection ? window.getSelection().removeAllRanges() : (document as any).selection.empty();
 
-            let curCLientX = (event.clientX > 10 ? (event.clientX < document.body.clientWidth - 10 ? event.clientX : document.body.clientWidth - 10 ) : 10 );
+            let curCLientX = (event.clientX > 10 ? (event.clientX < document.body.clientWidth - 10 ? event.clientX : document.body.clientWidth - 10) : 10);
 
-            let curCLientY = (event.clientY > 10 ? (event.clientY < document.body.clientHeight - 10 ? event.clientY : document.body.clientHeight - 10 ) : 10 );
+            let curCLientY = (event.clientY > 10 ? (event.clientY < document.body.clientHeight - 10 ? event.clientY : document.body.clientHeight - 10) : 10);
 
             let toRight = curCLientX - pointLeft + right;
 
             let toBottom = curCLientY - pointTop + bottom;
 
-            
+
             this.setState({
                 toRight: toRight,
                 toBottom: toBottom,
@@ -179,7 +184,7 @@ class Modal extends React.Component<IModalProps, any> {
 
         document.onmouseup = (event) => {
             //鼠标松开后清除移动事件
-            if(event.clientY < 0 || event.clientY > document.body.clientHeight ){
+            if (event.clientY < 0 || event.clientY > document.body.clientHeight) {
                 this.handleExtend();
             }
             document.onmousemove = null;
@@ -235,7 +240,7 @@ class Modal extends React.Component<IModalProps, any> {
 
         //当鼠标按下时触发
         e.stopPropagation();
-        
+
         let { height, toBottom: bottom, } = this.state;
         let pointTop = e.clientY //获取此时鼠标距离屏幕顶部的距离
         let top = this.modal.offsetTop + bottom; //弹框到顶部的距离
@@ -274,7 +279,7 @@ class Modal extends React.Component<IModalProps, any> {
         }
     }
 
-    dragScale(e){
+    dragScale(e) {
         e.stopPropagation();
         let { width, toRight: right, } = this.state;
         let pointLeft = e.clientX //获取此时鼠标距离屏幕左侧的距离
@@ -341,7 +346,7 @@ class Modal extends React.Component<IModalProps, any> {
 
     /* 全屏/还原 */
     handleExtend() {
-        let { clientWidth:width, clientHeight:height } = document.body;
+        let { clientWidth: width, clientHeight: height } = document.body;
         let marginTop, marginLeft;
         let { draggable, historyWidth, historyHeight, isExtend, } = this.state;
         if (!isExtend) {
@@ -386,7 +391,7 @@ class Modal extends React.Component<IModalProps, any> {
 
     footerRender = () => {
         const { footer, okText, cancelText } = this.props;
-        const { draggable=true } = this.state;
+        const { draggable = true } = this.state;
 
         if (Object.prototype.toString.call(footer) === '[object Object]' && (footer as JSX.Element).type) {
             /* 如果是一个react组件 */
@@ -430,9 +435,9 @@ class Modal extends React.Component<IModalProps, any> {
         )
     }
 
-    draggableAngleRender(){
-        return ['right-bottom','right-top','left-bottom','left-top'].map(item=>{
-            return <div key={item} className={classnames('draggable',item)} onMouseDown={(e)=>this.dragScale(e)}></div>
+    draggableAngleRender() {
+        return ['right-bottom', 'right-top', 'left-bottom', 'left-top'].map(item => {
+            return <div key={item} className={classnames('draggable', item)} onMouseDown={(e) => this.dragScale(e)}></div>
         })
     }
 
@@ -453,7 +458,7 @@ class Modal extends React.Component<IModalProps, any> {
                 id={'modal-' + modalId}
                 className={className}
                 onClick={() => { this.handleFocus() }}
-                
+
                 style={{
                     ...bodyStyle,
                     display: this.state.visible ? 'flex' : 'none',
@@ -464,14 +469,14 @@ class Modal extends React.Component<IModalProps, any> {
                     marginLeft: this.state.marginLeft,
                     ...transformProps
                 }}>
-                
-                { this.draggableAngleRender() }
-        
+
+                { this.draggableAngleRender()}
+
                 <div className='modal-header'
                     /* 弹窗拖动事件 */
-                    onDoubleClick={(e)=>{
-                        e.stopPropagation(); 
-                        this.handleExtend(); 
+                    onDoubleClick={(e) => {
+                        e.stopPropagation();
+                        this.handleExtend();
                     }}
                     onMouseDown={(e) => {
                         draggable && this.dragMove(e)
@@ -482,9 +487,9 @@ class Modal extends React.Component<IModalProps, any> {
                             draggable && this.dragScaleY(e)
                         }}
                     >
-                        
+
                     </div>
-                    <div className='modal-title' onMouseDown={(e)=>e.stopPropagation()} onDoubleClick={(e)=>e.stopPropagation()}>
+                    <div className='modal-title' onMouseDown={(e) => e.stopPropagation()} onDoubleClick={(e) => e.stopPropagation()}>
                         {title}
                     </div>
 
@@ -492,7 +497,7 @@ class Modal extends React.Component<IModalProps, any> {
                     <div className='modal-header-btnList'>
                         {/* 全屏 */}
                         <div
-                            className={classnames('modal-header-btn btn-extend',{"isExtend": isExtend})}
+                            className={classnames('modal-header-btn btn-extend', { "isExtend": isExtend })}
                             onClick={
                                 () => this.handleExtend()
                             }

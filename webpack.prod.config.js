@@ -1,5 +1,4 @@
 const path = require('path');
-const webpack = require('webpack');
 const webpackBaseConfig = require('./webpack.base.config');
 const { merge } = require('webpack-merge');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
@@ -9,8 +8,8 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const webpackProdConfig = {
-    mode: 'development',
-    devtool: 'inline-source-map',
+    mode: 'production',
+    devtool: 'source-map',
     entry: {
         app: [path.join(__dirname,'./src/components/index.tsx')]
     },

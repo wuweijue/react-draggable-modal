@@ -1,5 +1,4 @@
 import * as ReactDOM from 'react-dom'; 
-import * as $ from 'jquery';
 import ModalStore from '../store/ModalStore';
 import IModalMethod,{IModal} from './ModalMethod.d';
 
@@ -22,13 +21,19 @@ class ModalMethod implements IModalMethod{
 
         let containerNode = curContainerNode || this.config.containerNode;
 
+        let modalRoot = document.querySelector('#modal-root');
         //若不存在根节点，则创建一个#modal-root用于承载弹窗
-        if (!$('#modal-root').length) {
-            $(containerNode).append("<div id='modal-root'/>");
+        if (!modalRoot) {
+            modalRoot = document.createElement('div');
+            modalRoot.setAttribute('id','modal-root');
+            containerNode.appendChild(modalRoot);
         }
 
         //由于ReactDOM.render方法会清空内部元素，所以需要一个中间层wrapper用于渲染
-        $('#modal-root').append(`<div id='modal-wrapper-${modalId}' class='modal-wrapper'/>`);
+        let modalWrapper = document.createElement('div');
+        modalWrapper.setAttribute('id',`modal-wrapper-${modalId}`),
+        modalWrapper.setAttribute('class','modal-wrapper'),
+        modalRoot.appendChild(modalWrapper)
 
         //利用ReactDOM渲染modal
         const reactElement = (ReactDOM.render(modal, document.getElementById('modal-wrapper-' + modalId)) as any);
@@ -45,23 +50,34 @@ class ModalMethod implements IModalMethod{
      * @description 关闭某个指定的弹窗
      * @param modalIndex 需要关闭的弹窗的id值
      */
-    public hideModal(modalIndex:number):void {
-        if ($('#modal-wrapper-' + modalIndex).length) {
-            $("#modal-"+modalIndex).addClass('modal-animation-out');
+    public hideModal(modalId:number):void {
+        let modalWrapperDOM = document.querySelector('#modal-wrapper-' + modalId)
+        if (modalWrapperDOM) {
+            let modalDOM = document.querySelector('#modal-'+modalId);
+            let modalClassName = modalDOM.className;
+            let modalRootDOM = document.querySelector('#modal-root');
+            if( !modalClassName.includes('modal-animation-out') ){
+                modalDOM.className += ' modal-animation-out'
+            }
 
             //设置定时器延时卸载组件是为了展示关闭弹窗的动画效果
             setTimeout(() => {
                 //手动卸载react组件，目的是触发内部组件componentWillUnmount生命周期函数
-                ReactDOM.unmountComponentAtNode(document.getElementById("modal-wrapper-" + modalIndex));
-                $('#modal-wrapper-'+modalIndex).remove();
+                ReactDOM.unmountComponentAtNode(document.getElementById("modal-wrapper-" + modalId));
+                modalRootDOM.removeChild(modalWrapperDOM);
                 //若#modal-root内弹窗均已关闭，则移除该元素
-                if (!$('.modal-wrapper').length) {
-                    $("#modal-root").addClass('modal-mask-out');
+                if (!document.querySelectorAll('.modal-wrapper').length) {
+                    let modalRootClassName = modalRootDOM.className;
+                    if( modalRootClassName && !modalRootClassName.includes('modal-mask-out') ){
+                        modalRootDOM.className += ' modal-mask-out'
+                    }
                     setTimeout(() => {
-                        $('#modal-root').remove();
+                        modalRootDOM.parentNode.removeChild(modalRootDOM)
                     }, 500);
                 }
             }, 300);           
+        }else{
+            console.warn('不存在modalId为' + modalId + '的弹窗')
         }
     }
 
@@ -69,7 +85,8 @@ class ModalMethod implements IModalMethod{
      * @description 强制关闭所有弹窗和根节点
      */
     public hideAllModal(): void {
-        $('#modal-root').remove();
+        let modalRootDOM = document.querySelector('#modal-root');
+        modalRootDOM.parentNode.removeChild(modalRootDOM);
     }
 
     /**

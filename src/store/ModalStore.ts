@@ -4,19 +4,19 @@ import IModalStore from  './ModalStore.d'
 class ModalStore implements IModalStore{
 
     constructor(){
-        $(document).keydown((event)=>{
+        document.addEventListener('keydown',(event)=>{
             event.preventDefault();
             let focusId = this.modalList.length && this.modalList[this.modalList.length-1].modalId;
             let reactElement = this.findReactElement(focusId) 
             if(!reactElement) return false;      
-            if(event.keyCode == 13){ //回车
+            if(event.keyCode == 13 || event.key == 'Enter'){ //回车
                 reactElement.props.onOk && reactElement.props.onOk();
             }
           
-            if(event.keyCode == 27){ //esc
+            if(event.keyCode == 27 || event.key == 'Escape'){ //esc
                 reactElement.props.onCancel && reactElement.props.onCancel();
             }
-        });
+        })
     }
 
     modalList = [];

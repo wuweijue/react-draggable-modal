@@ -8,7 +8,7 @@ const port = '8084';
 
 const webpackDevConfig = {
     mode: "development",
-    devtool: "source-map",
+    devtool: "inline-source-map",
     entry: [
         path.join(__dirname,'./src/index.tsx'),
     ],

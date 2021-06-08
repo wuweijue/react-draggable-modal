@@ -16,8 +16,7 @@
     "build": "webpack --config ./webpack.prod.config"
   },
   "dependencies": {
-    "classnames": "^2.3.1",
-    "source-map": "^0.6.2"
+    "classnames": "^2.3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.10.4",

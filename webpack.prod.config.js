@@ -9,7 +9,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const webpackProdConfig = {
     mode: 'production',
-    devtool: 'source-map',
     entry: {
         app: [path.join(__dirname,'./src/components/index.tsx')]
     },

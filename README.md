@@ -1,18 +1,19 @@
 <h1><center>react-draggable-modal</center></h1>
 <h2><center>一个基于 react 的模态框库，搭配 typescript 食用更佳！</center></h2>
+<p>[github](https://github.com/wuweijue/react-draggable-modal)</P>
+<br>
 <h3>
 Chinese Introduction：
 </h3>
-
 <br>
-<P>用途：当你在一个页面需要展示一些额外的内容或交互，但又不想通过切换路由或者影响原页面来实现，尝试使用这个模态框</P>
+<P>用途：当你在一个页面中需要展示一些额外的内容或交互，但又不想通过切换路由或者影响原页面来实现，尝试使用这个模态框</P>
 <br>
 <P>基础功能：在原页面上层展示一个可操作的弹出窗口，与antd等一般ui类库中的modal基本一致</P>
 <br>
-<P>进阶功能：支持拖拽移动，宽高拉伸，全屏展示，键盘事件，多层弹窗和聚焦（类似于操作系统的窗口，多个窗口同时存在时，可以通过点击让下面的窗口出现在最上层，并进行操作）</P>
+<P>进阶功能：支持拖拽移动，八向宽高拉伸，全屏展示，键盘事件，多层弹窗和聚焦（类似于操作系统的窗口，多个窗口同时存在时，可以通过点击让下面的窗口出现在最上层，并进行操作）</P>
 <br>
 <P>
-特性：模态框拥有入场和出场的动画，让画面过渡更加柔顺</P>
+额外：模态框拥有入场和出场等一系列动画，使画面过渡更加柔顺</P>
 <br>
 <P>
 使用指南：（以下示例非完整代码，仅作参考）</P>
@@ -60,7 +61,7 @@ Chinese Introduction：
 
 ``` typescript
 
-    import ModalMethod,{ Modal } from 'react-draggable-modal';
+    import modalMethod,{ Modal } from 'react-draggable-modal';
 
     import 'react-draggable-modal/lib/modal.css'; 
 
@@ -73,15 +74,15 @@ Chinese Introduction：
 			modalInstance.close();
 
 			/*方法二：通过modal的hideModal方法，参数为modalId*/
-			ModalMethod.hideModal(modalInstance.modalId); 
+			modalMethod.hideModal(modalInstance.modalId); 
 
 			/*方法三：通过modal的hideAllModal方法强制关闭所有弹窗*/
-			ModalMethod.hideAllModal(); 
+			modalMethod.hideAllModal(); 
 		}
 
 		querySave(){
 			// 此处展示弹窗并返回一个弹窗实例，用于关闭弹窗或是获取Modal的dom（详情请见api说明）
-			let modal = ModalMethod.showModal(<Modal
+			let modal = modalMethod.showModal(<Modal
 				onOk={()=>this.save(modal)}
 				onCancel={()=>this.quit(modal)}
 				visible={true} //当使用接口调用时这是必须的

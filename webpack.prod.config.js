@@ -6,15 +6,16 @@ const TerserJSPlugin = require('terser-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const webpackProdConfig = {
     mode: 'production',
     entry: {
-        app: [path.join(__dirname,'./src/components/index.tsx')]
+        app: [path.join(__dirname, './src/components/index.tsx')]
     },
     output: {
-        path: path.join(__dirname,'./lib'),
-        filename: 'modal.js',
+        path: path.join(__dirname, './dist'),
+        filename: 'index.js',
         libraryTarget: 'commonjs2'
     },
     externals: [
@@ -36,9 +37,18 @@ const webpackProdConfig = {
     plugins: [
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
-            filename: 'modal.css'
-        })
+            filename: 'main.css'
+        }),
+        new CopyPlugin({
+            patterns: [
+                { 
+                    context: 'src/components',
+                    from: '**/*.d.ts' ,
+                    to: ".", 
+                },
+            ],
+        }),
     ]
 }
 
-module.exports = merge(webpackProdConfig,webpackBaseConfig)
+module.exports = merge(webpackProdConfig, webpackBaseConfig)

@@ -1,4 +1,4 @@
-import IModalStore from '../store/ModalStore.d';
+import IModalStore from './store/ModalStore.d';
 
 export interface IModalProps {
 

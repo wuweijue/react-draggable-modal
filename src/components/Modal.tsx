@@ -526,7 +526,7 @@ class Modal extends React.Component<IModalProps, any> {
                 </div>
 
                 <div
-                    className='modal-body scroll'
+                    className='modal-body modal-scroll'
                     onMouseDown={(e) => {
                         {/* 纵向拉伸事件 */ }
                         draggable && this.dragScaleX(e);

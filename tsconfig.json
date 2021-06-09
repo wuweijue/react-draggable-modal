@@ -6,7 +6,10 @@
         "lib": ["es5", "dom", "es2015"],
         "jsx": "react",
         "allowJs": false,
-        "sourceMap": true
+        "sourceMap": true,
+        "outDir": "./lib",
+        "declaration": true,
+        "declarationDir": "./lib"
     },
     "exclude": [
         "node_modules"

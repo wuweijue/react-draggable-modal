@@ -2,7 +2,7 @@
 <h2><center>一个基于 react 的模态框库，搭配 typescript 食用更佳！</center></h2>
 <h3>
 Chinese Introduction：
-</h3>
+</h3>Cancel changes
 
 <br>
 <P>用途：当你在一个页面需要展示一些额外的内容或交互，但又不想通过切换路由或者影响原页面来实现，尝试使用这个模态框</P>
@@ -28,7 +28,7 @@ Chinese Introduction：
 
 ``` typescript
 
-	import { Modal } from 'react-draggable-modal';
+    import { Modal } from 'react-draggable-modal';
 
     import 'react-draggable-modal/lib/modal.css'; 
 
@@ -60,7 +60,7 @@ Chinese Introduction：
 
 ``` typescript
 
-	import ModalMethod,{ Modal } from 'react-draggable-modal';
+    import ModalMethod,{ Modal } from 'react-draggable-modal';
 
     import 'react-draggable-modal/lib/modal.css'; 
 

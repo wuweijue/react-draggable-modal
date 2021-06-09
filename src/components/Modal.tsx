@@ -80,12 +80,12 @@ class Modal extends React.Component<IModalProps, any> {
 
         let { mask = true, visible, draggable, title } = props;
 
-        if(mask){
+        if (mask && !document.querySelector('.modal-mask-in')) {
+
             let modalRootDOM = document.querySelector('#modal-root');
-            let modalRootClassName = modalRootDOM.className;
-            if (!modalRootClassName.includes('modal-mask-in')) {
-                modalRootDOM.className += ' modal-mask-in'
-            }
+            let maskDOM = document.createElement('div');
+            maskDOM.className = 'modal-mask modal-mask-in';
+            modalRootDOM.appendChild(maskDOM);
         }
 
         this.state = {
@@ -103,6 +103,7 @@ class Modal extends React.Component<IModalProps, any> {
             historyWidth: width,
             historyHeight: height,
             title: title,
+            transition: 'none'
         }
     }
 
@@ -346,6 +347,7 @@ class Modal extends React.Component<IModalProps, any> {
 
     /* 全屏/还原 */
     handleExtend() {
+        
         let { clientWidth: width, clientHeight: height } = document.body;
         let marginTop, marginLeft;
         let { draggable, historyWidth, historyHeight, isExtend, } = this.state;
@@ -363,8 +365,6 @@ class Modal extends React.Component<IModalProps, any> {
             marginLeft = 0 - historyWidth / 2;
         }
         this.setState({
-            width,
-            height,
             historyWidth: this.state.width,
             historyHeight: this.state.height,
             toRight: 0,
@@ -373,7 +373,16 @@ class Modal extends React.Component<IModalProps, any> {
             marginTop,
             marginLeft,
             isExtend: !isExtend,
+            width,
+            height,
+            transition: '0.5s'
         })
+        
+        setTimeout(()=>{
+            this.setState({
+                transition: 'none',
+            })
+        },500)
     }
 
     //聚焦
@@ -443,7 +452,7 @@ class Modal extends React.Component<IModalProps, any> {
 
     render() {
         const { className: propsClassName, title, closable = true, bodyStyle } = this.props;
-        let { isExtend, draggable, modalId, toRight, toBottom } = this.state;
+        let { isExtend, draggable, modalId, toRight, toBottom, transition, width, height, zIndex, marginTop, marginLeft } = this.state;
         const className = classNames('modal', 'modal-animation-in', { 'modal-extendStatus': isExtend, [propsClassName]: propsClassName })
         let transformProps = {}
         if (toRight || toBottom) {
@@ -462,11 +471,12 @@ class Modal extends React.Component<IModalProps, any> {
                 style={{
                     ...bodyStyle,
                     display: this.state.visible ? 'flex' : 'none',
-                    width: this.state.width + 'px',
-                    height: this.state.height + 'px',
-                    zIndex: this.state.zIndex,
-                    marginTop: this.state.marginTop,
-                    marginLeft: this.state.marginLeft,
+                    width: width + 'px',
+                    height: height + 'px',
+                    zIndex: zIndex,
+                    marginTop: marginTop,
+                    marginLeft: marginLeft,
+                    transition: transition,
                     ...transformProps
                 }}>
 

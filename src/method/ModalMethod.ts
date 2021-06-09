@@ -1,8 +1,8 @@
-import * as ReactDOM from 'react-dom'; 
+import * as ReactDOM from 'react-dom';
 import ModalStore from '../store/ModalStore';
-import IModalMethod,{IModal} from './ModalMethod.d';
+import IModalMethod, { IModal } from './ModalMethod.d';
 
-class ModalMethod implements IModalMethod{
+class ModalMethod implements IModalMethod {
 
     config
 
@@ -11,7 +11,7 @@ class ModalMethod implements IModalMethod{
      * @param modal 弹窗组件
      * @returns modalId 返回一个modal的number类型的id值，用于关闭弹窗
      */
-    public showModal(modal: JSX.Element, option={
+    public showModal(modal: JSX.Element, option = {
         containerNode: document.body
     }): IModal {
 
@@ -25,23 +25,26 @@ class ModalMethod implements IModalMethod{
         //若不存在根节点，则创建一个#modal-root用于承载弹窗
         if (!modalRoot) {
             modalRoot = document.createElement('div');
-            modalRoot.setAttribute('id','modal-root');
+            modalRoot.setAttribute('id', 'modal-root');
+            let mask = document.createElement('div');
+            mask.className = 'modal-mask';
             containerNode.appendChild(modalRoot);
+            modalRoot.appendChild(mask)
         }
 
         //由于ReactDOM.render方法会清空内部元素，所以需要一个中间层wrapper用于渲染
         let modalWrapper = document.createElement('div');
-        modalWrapper.setAttribute('id',`modal-wrapper-${modalId}`),
-        modalWrapper.setAttribute('class','modal-wrapper'),
-        modalRoot.appendChild(modalWrapper)
+        modalWrapper.setAttribute('id', `modal-wrapper-${modalId}`),
+            modalWrapper.setAttribute('class', 'modal-wrapper'),
+            modalRoot.appendChild(modalWrapper)
 
         //利用ReactDOM渲染modal
         const reactElement = (ReactDOM.render(modal, document.getElementById('modal-wrapper-' + modalId)) as any);
 
         return {
-            DOM: document.getElementById('modal-'+modalId),
+            DOM: document.getElementById('modal-' + modalId),
             modalId,
-            close: ()=>this.hideModal(modalId),
+            close: () => this.hideModal(modalId),
             reactElement
         };
     }
@@ -50,13 +53,13 @@ class ModalMethod implements IModalMethod{
      * @description 关闭某个指定的弹窗
      * @param modalId 需要关闭的弹窗的id值
      */
-    public hideModal(modalId:number):void {
+    public hideModal(modalId: number): void {
         let modalWrapperDOM = document.querySelector('#modal-wrapper-' + modalId)
         if (modalWrapperDOM) {
-            let modalDOM = document.querySelector('#modal-'+modalId);
+            let modalDOM = document.querySelector('#modal-' + modalId);
             let modalClassName = modalDOM.className;
             let modalRootDOM = document.querySelector('#modal-root');
-            if( !modalClassName.includes('modal-animation-out') ){
+            if (!modalClassName.includes('modal-animation-out')) {
                 modalDOM.className += ' modal-animation-out'
             }
 
@@ -67,16 +70,10 @@ class ModalMethod implements IModalMethod{
                 modalRootDOM.removeChild(modalWrapperDOM);
                 //若#modal-root内弹窗均已关闭，则移除该元素
                 if (!document.querySelectorAll('.modal-wrapper').length) {
-                    let modalRootClassName = modalRootDOM.className;
-                    if( modalRootClassName && !modalRootClassName.includes('modal-mask-out') ){
-                        modalRootDOM.className += ' modal-mask-out'
-                    }
-                    setTimeout(() => {
-                        modalRootDOM.parentNode.removeChild(modalRootDOM)
-                    }, 500);
+                    modalRootDOM.parentNode.removeChild(modalRootDOM)
                 }
-            }, 300);           
-        }else{
+            }, 300);
+        } else {
             console.warn('不存在modalId为' + modalId + '的弹窗')
         }
     }
@@ -93,7 +90,7 @@ class ModalMethod implements IModalMethod{
      * @description 设置配置项
      */
     public setConfig(config): void {
-        this.config = {...this.config,config}
+        this.config = { ...this.config, config }
     }
 
 }

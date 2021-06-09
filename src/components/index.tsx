@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Modal from './Modal';
 import ModalStore from '../store/ModalStore';
-import ModalMethods from './ModalMethod';
+import ModalMethods from '../method/ModalMethod';
 import { IModalProps } from './Modal.d';
 class DragModal extends React.Component<IModalProps>{
     render(){

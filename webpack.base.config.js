@@ -47,8 +47,7 @@ const webpackBaseConfig = {
                                         ]
                                     })
                                 ]
-                            }
-                            
+                            }         
                         }
                         
                     },

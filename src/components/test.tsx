@@ -1,7 +1,6 @@
 import * as React from 'react';
-
-import ModalMethods from './ModalMethod';
-import { Modal } from './index'
+import ModalMethods from '../method/ModalMethod';
+import { Modal } from './index';
 
 class Button extends React.Component {
 

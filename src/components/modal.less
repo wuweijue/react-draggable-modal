@@ -2,22 +2,25 @@
 
 @prefix: ~'modal';
 
-html,body{
-    height: 100%;
-    width: 100%;
+@mac: ~'mac-style-modal';
+
+html,
+body {
+    height  : 100%;
+    width   : 100%;
     overflow: hidden;
 }
 
 .@{prefix} {
     &.modal-animation-in {
-        animation: fadein 0.4s;
+        animation: fadein 0.5s;
     }
 
     &.modal-animation-out {
-        animation: fadeout 0.3s;
+        animation: fadeout 0.5s;
     }
 
-    // animation: fadein 0.5s;
+    filter          : none;
     background-color: white;
     display         : flex;
     flex-direction  : column;
@@ -31,35 +34,40 @@ html,body{
     box-shadow      : 0 3px 6px -4px rgba(0, 0, 0, .12),
     0 6px 16px 0 rgba(0, 0, 0, .08),
     0 9px 28px 8px rgba(0, 0, 0, .05);
-
+    transition: 0.5s;
     &.@{prefix}-extendStatus {
+        transition: 0.5s;
         top : 0;
         left: 0;
     }
 
-    .draggable{
+    .draggable {
         position: absolute;
-        display: inline-block;
-        height: 12px;
-        width: 12px;
-        &.left-top{
-            top: 0;
-            left: 0;
+        display : inline-block;
+        height  : 12px;
+        width   : 12px;
+
+        &.left-top {
+            top   : 0;
+            left  : 0;
             cursor: nw-resize;
         }
-        &.left-bottom{
+
+        &.left-bottom {
             bottom: 0;
-            left: 0;
+            left  : 0;
             cursor: sw-resize;
         }
-        &.right-top{
-            top: 0;
-            right: 0;
+
+        &.right-top {
+            top   : 0;
+            right : 0;
             cursor: ne-resize;
         }
-        &.right-bottom{
+
+        &.right-bottom {
             bottom: 0;
-            right: 0;
+            right : 0;
             cursor: se-resize;
         }
     }
@@ -71,27 +79,27 @@ html,body{
         height          : 40px;
         line-height     : 40px;
         padding         : 0 12px;
-        background-color: #1c56d1;
-        border-radius: 4px 4px 0 0;
+        background-color: #E3E2E2;
+        border-radius   : 4px 4px 0 0;
 
         .@{prefix}-title {
             font-size    : 16px;
             font-weight  : bold;
-            color        : white;
+            color        : #01000C;
             overflow     : hidden;
             text-overflow: ellipsis;
             white-space  : nowrap;
             max-width    : ~"calc(100% - 160px)";
-            cursor: pointer;
+            cursor       : pointer;
         }
 
-        .@{prefix}-header-drag{
-            cursor: n-resize;
+        .@{prefix}-header-drag {
+            cursor  : n-resize;
             position: absolute;
-            top: 0;
-            left: 12px;
-            height: 10px;
-            width: ~"calc(100% - 24px)";
+            top     : 0;
+            left    : 12px;
+            height  : 10px;
+            width   : ~"calc(100% - 24px)";
         }
 
         .@{prefix}-header-btnList {
@@ -102,10 +110,12 @@ html,body{
 
                 &.btn-extend {
 
-                    &.isExtend{
+                    &.isExtend {
                         margin-right: 10px;
+
                         .icon-extend {
-                            transform : scale(1.2);
+                            transform: scale(1.2);
+
                             &:hover {
                                 transform : scale(0.8);
                                 transition: all 0.8s;
@@ -121,8 +131,8 @@ html,body{
                             transform : scale(1.4);
                         }
 
-                        width           : 25px;
-                        height          : 20px;
+                        width           : 22px;
+                        height          : 18px;
                         background-image: url('../images/全屏.png');
                     }
 
@@ -209,30 +219,39 @@ html,body{
     position          : fixed;
     top               : 0;
     left              : 0;
-    z-index           : 999;
+    z-index           : 998;
 
-    &.modal-mask-in {
-        background-color: rgba(0, 0, 0, .45);
-        transition      : 0.4s 0.4s;
+    .modal-mask{
+        width: 0;
+        height: 0;
+        filter          : blur(0px);
+        &.modal-mask-in {
+            background-color: rgba(0, 0, 0, .45);
+            filter          : blur(5px);
+            transition      : 0.5s;
+            width           : 100%;
+            height          : 100%;
+            z-index         : 999;
+        }
+    
+        &.modal-mask-out {
+            background-color: rgba(0, 0, 0, 0);
+            transition      : 0.5s;
+        }
     }
 
-    &.modal-mask-out {
-        background-color: rgba(0, 0, 0, 0);
-        transition      : 0.3s 0.3s;
-    }
+    
 }
 
 @keyframes fadein {
     0% {
         top      : 100%;
         opacity  : 0.2;
-        transform: rotateX(90deg);
     }
 
     100% {
         top      : 40%;
         opacity  : 1;
-        transform: rotateX(0deg);
     }
 }
 
@@ -240,13 +259,21 @@ html,body{
 
     0% {
         opacity  : 1;
-        transform: rotateX(0deg);
     }
 
     100% {
         top      : 100%;
         opacity  : 0.2;
-        transform: rotateX(90deg);
     }
 
+}
+
+.@{prefix} {
+    .modal-header {
+        background-color: #E3E2E2;
+
+        .modal-title {
+            color: #01000C;
+        }
+    }
 }

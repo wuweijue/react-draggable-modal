@@ -9,7 +9,7 @@ class ModalMethod implements IModalMethod{
     /**
      * @description 在页面中展示一个弹窗
      * @param modal 弹窗组件
-     * @returns modalIndex 返回一个modal的number类型的id值，用于关闭弹窗
+     * @returns modalId 返回一个modal的number类型的id值，用于关闭弹窗
      */
     public showModal(modal: JSX.Element, option={
         containerNode: document.body
@@ -48,7 +48,7 @@ class ModalMethod implements IModalMethod{
 
     /**
      * @description 关闭某个指定的弹窗
-     * @param modalIndex 需要关闭的弹窗的id值
+     * @param modalId 需要关闭的弹窗的id值
      */
     public hideModal(modalId:number):void {
         let modalWrapperDOM = document.querySelector('#modal-wrapper-' + modalId)

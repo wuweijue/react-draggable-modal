@@ -119,9 +119,9 @@ Chinese Introduction：
 
     /**
      * @description 关闭某个指定的弹窗
-     * @param modalIndex 需要关闭的弹窗的id值
+     * @param modalId 需要关闭的弹窗的id值
      */
-    public hideModal(modalIndex: number): void 
+    public hideModal(modalId: number): void 
 
     /**
      * @description 强制关闭所有弹窗以及它们的根节点

@@ -1,6 +1,6 @@
 {
   "name": "react-draggable-modal",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "main": "lib/modal.js",
   "author": "wuweijue",
   "license": "MIT",

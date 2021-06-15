@@ -66,8 +66,37 @@
 		}
 	}
 ```
+<P>（2）使用modalMethod.open方法：</P>
 
-<P>（2）通过modal的api使用 Using the API of modal：</P>
+``` typescript
+
+    import { Modal } from 'react-draggable-modal';
+
+    import 'react-draggable-modal/lib/modal.css'; 
+
+	class Business extends React.Components {
+
+		save(){
+            //此处执行save event
+        }
+
+		render(){
+			return <div>
+				<button onClick={()=>{
+                    window.modal.open({
+                        children: '当前表单内容有所变化，请问是否需要保存？'
+                        mask: false,
+                        width: 400,
+                        height: 240,
+                        onOk:()=>this.save()
+                    })
+                }}>弹出modal</button>
+			</div>
+		}
+	}
+```
+
+<P>（3）通过modal的api使用 Using the API of modal：</P>
 
 ``` typescript
 
@@ -163,7 +192,7 @@
 
 
 <p>
-（2）：Modal.props (模态框组件的可传参数 Transmissible parameters of modal components)
+（2）：Modal.props (模态框组件<Modal/> 或 modalMethod.open()的可传参数 Transmissible parameters of modal components)
 
 ``` typescript
 

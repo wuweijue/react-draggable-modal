@@ -25,7 +25,6 @@ const webpackBaseConfig = {
                                 }
                             ],
                             '@babel/preset-react',
-                            '@babel/typescript'
                         ]
                     }
                 }

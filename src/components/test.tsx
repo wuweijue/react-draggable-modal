@@ -25,7 +25,7 @@ class Button extends React.Component {
                         onOk={() => modal2.close()}
                         className='333'
                         onCancel={() => {
-                            console.log(modal2.modalId)
+                        
                             modal2.close()
                         }}
                         visible={true}

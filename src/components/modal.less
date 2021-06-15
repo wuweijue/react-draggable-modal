@@ -220,27 +220,27 @@ body {
     top               : 0;
     left              : 0;
     z-index           : 998;
+}
 
-    .modal-mask{
-        width: 0;
-        height: 0;
-        filter          : blur(0px);
-        &.modal-mask-in {
-            background-color: rgba(0, 0, 0, .45);
-            filter          : blur(5px);
-            transition      : 0.5s;
-            width           : 100%;
-            height          : 100%;
-            z-index         : 999;
-        }
-    
-        &.modal-mask-out {
-            background-color: rgba(0, 0, 0, 0);
-            transition      : 0.5s;
-        }
+.modal-mask{
+    position: fixed;
+    top: 0;
+    left: 0;
+    // backdrop-filter: blur(2px);
+    filter          : blur(0px);
+    &.modal-mask-in {
+        background-color: rgba(0, 0, 0, .45);
+        
+        transition      : 0.5s;
+        width           : 100%;
+        height          : 100%;
+        z-index         : 997;
     }
 
-    
+    &.modal-mask-out {
+        background-color: rgba(0, 0, 0, 0);
+        transition      : 0.5s;
+    }
 }
 
 @keyframes fadein {

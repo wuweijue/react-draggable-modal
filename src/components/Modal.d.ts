@@ -1,3 +1,4 @@
+import * as React from 'react';
 import IModalStore from './store/ModalStore.d';
 
 export interface IModalProps {
@@ -34,4 +35,8 @@ export interface IModalProps {
 
     onCancel?(): void
 
+}
+
+export default class Modal extends React.Component<IModalProps>{
+    render(): JSX.Element;
 }

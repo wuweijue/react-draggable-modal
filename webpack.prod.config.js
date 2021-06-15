@@ -14,7 +14,7 @@ const webpackProdConfig = {
         app: [path.join(__dirname, './src/components/index.tsx')]
     },
     output: {
-        path: path.join(__dirname, './dist'),
+        path: path.join(__dirname, './lib'),
         filename: 'index.js',
         libraryTarget: 'commonjs2'
     },
@@ -37,7 +37,7 @@ const webpackProdConfig = {
     plugins: [
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
-            filename: 'main.css'
+            filename: 'modal.css'
         }),
         new CopyPlugin({
             patterns: [
@@ -48,6 +48,7 @@ const webpackProdConfig = {
                 },
             ],
         }),
+        
     ]
 }
 

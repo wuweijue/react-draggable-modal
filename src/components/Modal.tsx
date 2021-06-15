@@ -76,17 +76,17 @@ class Modal extends React.Component<IModalProps, any> {
         const that = this;
         const store = this.props.store;
 
-        let zIndex = store.registerModal(that);
+
 
         let { mask = true, visible, draggable, title } = props;
 
-        if (mask && !document.querySelector('.modal-mask-in')) {
-
-            let modalRootDOM = document.querySelector('#modal-root');
-            let maskDOM = document.createElement('div');
+        if (mask && !document.querySelector('.modal-mask')) {
+            const maskDOM = document.createElement('div');
             maskDOM.className = 'modal-mask modal-mask-in';
-            modalRootDOM.appendChild(maskDOM);
+            document.body.appendChild(maskDOM);
         }
+
+        let zIndex = store.registerModal(that, mask, visible);
 
         this.state = {
             visible: visible || false,
@@ -113,18 +113,29 @@ class Modal extends React.Component<IModalProps, any> {
             this.setState({ visible });
             if (visible === false) {
                 this.afterClose();
+            } else {
+                this.props.store.changeModalVisible(this.state.modalId, visible);
             }
+
         }
     }
 
     componentWillUnmount() {
-        this.afterClose();
         this.props.store.unRegisterModal(this.state.modalId);
+        this.afterClose();
     }
 
     afterClose() {
         if (this.props.afterClose) {
             this.props.afterClose();
+        }
+        this.props.store.changeModalVisible(this.state.modalId, false);
+        const modalMaskDOM = document.querySelector('.modal-mask');
+        if (modalMaskDOM) {
+            const allHide = this.props.store.getIsAllModalHide();
+            if (allHide) {
+                document.body.removeChild(modalMaskDOM);
+            }
         }
     }
 
@@ -347,7 +358,7 @@ class Modal extends React.Component<IModalProps, any> {
 
     /* 全屏/还原 */
     handleExtend() {
-        
+
         let { clientWidth: width, clientHeight: height } = document.body;
         let marginTop, marginLeft;
         let { draggable, historyWidth, historyHeight, isExtend, } = this.state;
@@ -377,12 +388,12 @@ class Modal extends React.Component<IModalProps, any> {
             height,
             transition: '0.5s'
         })
-        
-        setTimeout(()=>{
+
+        setTimeout(() => {
             this.setState({
                 transition: 'none',
             })
-        },500)
+        }, 500)
     }
 
     //聚焦
@@ -480,20 +491,23 @@ class Modal extends React.Component<IModalProps, any> {
                     ...transformProps
                 }}>
 
-                { this.draggableAngleRender()}
+                {this.draggableAngleRender()}
 
                 <div className='modal-header'
                     /* 弹窗拖动事件 */
                     onDoubleClick={(e) => {
+                        this.handleFocus()
                         e.stopPropagation();
                         this.handleExtend();
                     }}
                     onMouseDown={(e) => {
+                        this.handleFocus()
                         draggable && this.dragMove(e)
                     }}
                 >
                     <div className='modal-header-drag'
                         onMouseDown={(e) => {
+                            this.handleFocus()
                             draggable && this.dragScaleY(e)
                         }}
                     >
@@ -529,6 +543,7 @@ class Modal extends React.Component<IModalProps, any> {
                     className='modal-body modal-scroll'
                     onMouseDown={(e) => {
                         {/* 纵向拉伸事件 */ }
+                        this.handleFocus()
                         draggable && this.dragScaleX(e);
                     }}
                 >

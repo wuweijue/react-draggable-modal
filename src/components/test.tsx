@@ -10,10 +10,12 @@ class Button extends React.Component {
     }
 
     render() {
-        return <button onClick={() => {
+        return <><div><Modal visible={true}></Modal></div><button onClick={() => {
+            
 
             let modal = modalMethod.showModal(<Modal
                 title='测试弹窗'
+                className='aa333'
                 onOk={() => {
                     modal.close();
                 }}
@@ -21,6 +23,7 @@ class Button extends React.Component {
                     modal.close()
                     let modal2 = modalMethod.showModal(<Modal
                         onOk={() => modal2.close()}
+                        className='333'
                         onCancel={() => {
                             console.log(modal2.modalId)
                             modal2.close()
@@ -106,7 +109,7 @@ class Button extends React.Component {
             </Modal>)
         }
 
-        }>fff</button>
+        }>fff</button></>
     }
 }
 
